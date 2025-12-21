@@ -15,6 +15,9 @@ info:
     name: Portfolio Application
     description: Java Spring Boot portfolio with REST APIs
     version: 1.0.0
+server:
+  port: ${PORT:8080}
+  shutdown: graceful
 
 spring:
   datasource:
