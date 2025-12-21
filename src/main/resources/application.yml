@@ -1,0 +1,36 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: Portfolio Application
+    description: Java Spring Boot portfolio with REST APIs
+    version: 1.0.0
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:portfolio
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+  security:
+    user:
+      name: admin
+      password: admin123
+      roles: ADMIN

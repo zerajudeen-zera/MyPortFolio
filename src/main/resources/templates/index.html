@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mohmed | Portfolio</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(180deg, #0f172a, #020617);
+            color: #e5e7eb;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(8px);
+        }
+
+        .nav-link {
+            color: #e5e7eb !important;
+            margin-left: 1rem;
+        }
+
+        .nav-link:hover {
+            color: #38bdf8 !important;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #94a3b8;
+        }
+
+        .btn-accent {
+            background: #38bdf8;
+            color: #020617;
+            border-radius: 30px;
+            padding: 10px 25px;
+            font-weight: 600;
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* ABOUT */
+        .about-box {
+            max-width: 800px;
+            margin: auto;
+            font-size: 1.1rem;
+            color: #cbd5f5;
+        }
+        /* SCROLL ANIMATIONS */
+        .animate {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .animate.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* CONTACT SECTION */
+        .contact-card {
+            background: #020617;
+            border-radius: 18px;
+            padding: 40px 25px;
+            text-align: center;
+            transition: all 0.35s ease;
+            color: #e5e7eb;
+            height: 100%;
+        }
+
+        .contact-card i {
+            font-size: 3rem;
+            margin-bottom: 18px;
+        }
+
+        /* Platform accents */
+        .contact-linkedin:hover {
+            box-shadow: 0 20px 40px rgba(10, 102, 194, 0.45);
+        }
+
+        .contact-mail:hover {
+            box-shadow: 0 20px 40px rgba(234, 67, 53, 0.45);
+        }
+
+        .contact-whatsapp:hover {
+            box-shadow: 0 20px 40px rgba(37, 211, 102, 0.45);
+        }
+
+        .contact-telegram:hover {
+            box-shadow: 0 20px 40px rgba(0, 136, 204, 0.45);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .contact-card h5 {
+            margin-top: 12px;
+            font-weight: 600;
+        }
+
+        .contact-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        #about{
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+
+        /* SKILLS */
+        .skill-card {
+            background: #020617;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(56, 189, 248, 0.25);
+        }
+
+        .skill-card img {
+            width: 50px;
+            margin-bottom: 15px;
+        }
+        .skill-level {
+            color: #747e8a; /* soft light gray-blue */
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        /* PROJECTS */
+        .project-card {
+            background: #020617;
+            border-radius: 18px;
+            padding: 20px;
+            height: 100%;
+            transition: all 0.35s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.25);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+
+
+        /* PROJECTS */
+        .project-card {
+            background: #020617;
+            border-radius: 16px;
+            padding: 25px;
+            height: 100%;
+        }
+
+        footer {
+            padding: 30px;
+            text-align: center;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand text-light fw-bold" href="#home">Portfolio</a>
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="nav" class="collapse navbar-collapse justify-content-end">
+            <a class="nav-link" href="#about">About</a>
+            <a class="nav-link" href="#skills">Skills</a>
+            <a class="nav-link" href="#projects">Projects</a>
+            <a class="nav-link" href="#contact">Contact</a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero">
+    <div>
+        <p>Hello, I'm</p>
+        <h1>Mohamed Zerajudeen</h1>
+        <p>AWS | DevOps Engineer</p>
+
+        <div class="mt-4">
+            <!-- View Resume -->
+            <a href="/resume/Mohmed_Resume.pdf"
+                target="_blank"
+                class="btn btn-accent me-3">
+                View Resume
+            </a>
+            <!-- Download Resume -->
+            <a href="/resume/Mohmed_Resume.pdf"
+                download
+                class="btn btn-outline-light">
+                Download Resume
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+    <h2 class="section-title">About Me</h2>
+    <div class="about-box">
+        I am an AWS-focused DevOps Engineer with 4 years of hands-on experience 
+        in building scalable, cloud-native applications, containerization, CI/CD pipelines, 
+        and infrastructure automation using Terraform. <br><br>
+
+        My expertise spans designing secure backend systems, orchestrating deployments 
+        with Kubernetes, and implementing observability solutions using Prometheus, Grafana, 
+        and CloudWatch. I thrive on solving complex integration challenges, ensuring 
+        production-grade reliability, and automating workflows that save teams time and effort. <br><br>
+
+        Beyond technical delivery, I am passionate about best practices in security, 
+        secrets management, and maintainable infrastructure. I enjoy mentoring peers, 
+        experimenting with new tools, and continuously improving processes to align 
+        with modern DevOps culture. <br><br>
+
+        My goal is to build resilient systems that empower businesses to innovate faster 
+        while staying reliable and secure in the cloud.
+
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+    <h2 class="section-title">Skills</h2>
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3" th:each="skill : ${skills}">
+                <div class="skill-card">
+                    <!-- TOOL ICON (static mapping for now) -->
+                    <img th:src="@{/icons/{icon}(icon=${skill.icon})}"
+                        onerror="this.onerror=null; this.src='/icons/default.png';"
+                        class="skill-icon"
+                        alt="Skill Icon">
+
+                    <h5 th:text="${skill.name}"></h5>
+                    <p class="skill-level" th:text="${skill.level}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+    <h2 class="section-title">Projects</h2>
+
+    <div class="container">
+        <div class="row g-4">
+
+            <div class="col-md-4 animate" th:each="project : ${projects}">
+                <div class="project-card">
+
+                    <!-- Project Image -->
+                    <img class="project-img"
+                         th:src="@{'/projects/' + ${project.image}}"
+                         onerror="this.src='/projects/default-project.png'">
+
+                    <!-- Content -->
+                    <div class="mt-3">
+                        <h5 th:text="${project.title}"></h5>
+                        <p th:text="${project.description}"></p>
+
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted"
+                                  th:text="${project.techStack}"></span>
+
+                            <a th:href="${project.githubUrl}"
+                               target="_blank">
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact">
+    <h2 class="section-title">Let's Connect</h2>
+
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+
+            <!-- LinkedIn -->
+            <div class="col-md-3 animate">
+                <a href="https://www.linkedin.com/in/mohmedzerajudeen/"
+                   target="_blank"
+                   class="text-decoration-none">
+                    <div class="contact-card contact-linkedin">
+                        <i class="bi bi-linkedin"></i>
+                        <h5>LinkedIn</h5>
+                        <p>Professional profile</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-3 animate">
+                <a href="mailto:zerajudeen@gmail.com"
+                   class="text-decoration-none">
+                    <div class="contact-card contact-mail">
+                        <i class="bi bi-envelope-fill"></i>
+                        <h5>Email</h5>
+                        <p>Send me a message</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- WhatsApp -->
+            <div class="col-md-3 animate">
+                <a href="https://wa.me/919731132171"
+                   target="_blank"
+                   class="text-decoration-none">
+                    <div class="contact-card contact-whatsapp">
+                        <i class="bi bi-whatsapp"></i>
+                        <h5>WhatsApp</h5>
+                        <p>Quick chat</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Telegram -->
+            <div class="col-md-3 animate">
+                <a href="https://t.me/mohamedzerajudeen"
+                   target="_blank"
+                   class="text-decoration-none">
+                    <div class="contact-card contact-telegram">
+                        <i class="bi bi-telegram"></i>
+                        <h5>Telegram</h5>
+                        <p>Message me</p>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+<footer>
+    Built with Spring Boot
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    const observer = new IntersectionObserver(
+        entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                }
+            });
+        },
+        { threshold: 0.2 }
+    );
+
+    document.querySelectorAll(".animate").forEach(el => {
+        observer.observe(el);
+    });
+</script>
+</body>
+</html>
