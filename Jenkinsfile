@@ -28,13 +28,17 @@ pipeline {
         stage('Sonar Analysis') {
             steps {
                 withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]){
-                    sh """
+                    withSonarQubeEnv('sonarserver'){
+                        sh """
                     mvn sonar:sonar \
                     -Dsonar.projectKey=portfoliokey \
                     -Dsonar.projectName='portfolio' \
                     -Dsonar.host.url=http://52.204.89.213:9000 \
                     -Dsonar.login=${SONAR_TOKEN}
                     """
+
+                    }
+                    
                 }
                 
             }
