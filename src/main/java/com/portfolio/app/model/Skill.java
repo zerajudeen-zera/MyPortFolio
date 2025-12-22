@@ -60,5 +60,8 @@ public class Skill {
     public void setIcon(String icon) {
         this.level = icon;
     }
+    public void setId(Long id) {
+    this.id = id;
+}
     
 }
