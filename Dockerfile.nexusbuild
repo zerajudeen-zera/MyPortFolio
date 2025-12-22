@@ -1,0 +1,22 @@
+# Runtime image only (no Maven build needed)
+FROM eclipse-temurin:17-jdk-alpine
+
+WORKDIR /app
+
+# Replace with your Nexus repo URL and artifact coordinates
+ARG JAR_VERSION=0.0.1-SNAPSHOT
+ARG GROUP_ID=com.example
+ARG ARTIFACT_ID=portfolio-app
+ARG REPO_URL=http://34.224.66.28:8081/repository/maven-snapshots/
+
+# Convert groupId to path (com/example)
+RUN apk add --no-cache curl
+
+# Download the JAR directly from Nexus
+RUN curl -u ${NEXUS_USER}:${NEXUS_PASS} \
+    -o app.jar \
+    "${REPO_URL}/${GROUP_ID//.//}/${ARTIFACT_ID}/${JAR_VERSION}/${ARTIFACT_ID}-${JAR_VERSION}.jar"
+
+EXPOSE 8080
+
+ENTRYPOINT ["java","-jar","app.jar"]

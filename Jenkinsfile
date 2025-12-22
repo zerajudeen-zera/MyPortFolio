@@ -47,7 +47,7 @@ pipeline {
             steps{
                 script {
                     withSonarQubeEnv('sonarserver'){
-                        timeout(time: 3, unit: 'MINUTES'){
+                        timeout(time: 2, unit: 'MINUTES'){
                             waitForQualityGate abortPipeline: true
                         }
                     }
@@ -55,6 +55,20 @@ pipeline {
             }
 
         }
+        stage('Deploy to Nexus') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'nexus',
+                                                usernameVariable: 'NEXUS_USER',
+                                                passwordVariable: 'NEXUS_PASS')]) {
+                sh """
+                    mvn -B deploy -DskipTests \
+                    -Dnexus.username=${NEXUS_USER} \
+                    -Dnexus.password=${NEXUS_PASS}
+                """
+                }
+            }
+        }
+
         
     }
 }
