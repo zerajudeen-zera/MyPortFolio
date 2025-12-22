@@ -1,9 +1,9 @@
-package com.portfolio;
+package com.portfolio.app;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(classes = PortfolioAppApplication.class)
 class PortfolioAppApplicationTests {
 
 	@Test

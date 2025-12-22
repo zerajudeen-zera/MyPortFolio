@@ -3,7 +3,7 @@ package com.portfolio.app;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "com.portfolio")
+@SpringBootApplication
 public class PortfolioAppApplication {
 
 	public static void main(String[] args) {
