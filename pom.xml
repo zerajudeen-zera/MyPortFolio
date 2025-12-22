@@ -30,6 +30,7 @@
 		<java.version>17</java.version>
 		<spring.boot.version>3.2.0</spring.boot.version>
         <sonar.maven.plugin.version>3.9.1.2184</sonar.maven.plugin.version>
+		<sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <jacoco.version>0.8.11</jacoco.version>
 	</properties>
 	<dependencyManagement>
