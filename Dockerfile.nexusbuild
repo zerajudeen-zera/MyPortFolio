@@ -1,6 +1,7 @@
 FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
-# Replace with your Nexus repo URL and artifact coordinates
+
+# Nexus repo URL and artifact coordinates
 ARG NEXUS_USER
 ARG NEXUS_PASS
 ARG JAR_VERSION=0.0.1-SNAPSHOT
@@ -10,12 +11,15 @@ ARG REPO_URL=http://54.87.34.231:8081/repository/maven-snapshots/
 
 RUN apk add --no-cache curl xmlstarlet
 
-# Resolve latest snapshot JAR from metadata
-RUN SNAPSHOT=$(curl -u ${NEXUS_USER}:${NEXUS_PASS} \
+# Fetch metadata and show it for debugging
+RUN curl -s -u ${NEXUS_USER}:${NEXUS_PASS} \
       ${REPO_URL}/${GROUP_ID}/${ARTIFACT_ID}/${JAR_VERSION}/maven-metadata.xml \
-      | xmlstarlet sel -t -v "//snapshotVersion[extension='jar']/value") \
+      -o metadata.xml \
+ && echo "=== RAW METADATA ===" \
+ && cat metadata.xml \
+ && SNAPSHOT=$(xmlstarlet sel -t -v "//snapshotVersion[extension='jar']/value" metadata.xml) \
  && echo "Resolved SNAPSHOT: ${SNAPSHOT}" \
- && curl -u ${NEXUS_USER}:${NEXUS_PASS} \
+ && curl -s -u ${NEXUS_USER}:${NEXUS_PASS} \
       -o app.jar \
       "${REPO_URL}/${GROUP_ID}/${ARTIFACT_ID}/${JAR_VERSION}/${ARTIFACT_ID}-${SNAPSHOT}.jar"
 
