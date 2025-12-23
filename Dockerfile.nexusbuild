@@ -1,22 +1,20 @@
-# Runtime image only (no Maven build needed)
 FROM eclipse-temurin:17-jdk-alpine
-
 WORKDIR /app
 
-# Replace with your Nexus repo URL and artifact coordinates
 ARG JAR_VERSION=0.0.1-SNAPSHOT
-ARG GROUP_ID=com.example
+ARG GROUP_ID=com/example
 ARG ARTIFACT_ID=portfolio-app
-ARG REPO_URL=http://34.224.66.28:8081/repository/maven-snapshots/
+ARG REPO_URL=http://54.87.34.231:8081/repository/maven-snapshots/
 
-# Convert groupId to path (com/example)
-RUN apk add --no-cache curl
+RUN apk add --no-cache curl xmlstarlet
 
-# Download the JAR directly from Nexus
-RUN curl -u ${NEXUS_USER}:${NEXUS_PASS} \
-    -o app.jar \
-    "${REPO_URL}/${GROUP_ID//.//}/${ARTIFACT_ID}/${JAR_VERSION}/${ARTIFACT_ID}-${JAR_VERSION}.jar"
+# Resolve latest snapshot JAR from metadata
+RUN SNAPSHOT=$(curl -u ${NEXUS_USER}:${NEXUS_PASS} \
+      ${REPO_URL}/${GROUP_ID}/${ARTIFACT_ID}/${JAR_VERSION}/maven-metadata.xml \
+      | xmlstarlet sel -t -v "//snapshotVersion[extension='jar']/value") \
+ && curl -u ${NEXUS_USER}:${NEXUS_PASS} \
+      -o app.jar \
+      "${REPO_URL}/${GROUP_ID}/${ARTIFACT_ID}/${JAR_VERSION}/${ARTIFACT_ID}-${SNAPSHOT}.jar"
 
 EXPOSE 8080
-
 ENTRYPOINT ["java","-jar","app.jar"]
