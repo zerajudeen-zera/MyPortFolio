@@ -1,7 +1,6 @@
 FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 
-# Build arguments passed from Jenkins
 ARG NEXUS_USER
 ARG NEXUS_PASS
 ARG JAR_VERSION=0.0.1-SNAPSHOT
@@ -11,7 +10,6 @@ ARG REPO_URL=http://54.87.34.231:8081/repository/maven-snapshots/
 
 RUN apk add --no-cache curl xmlstarlet
 
-# Fetch metadata from the SNAPSHOT folder, resolve latest jar, and download it
 RUN curl -s -u ${NEXUS_USER}:${NEXUS_PASS} \
       ${REPO_URL}/${GROUP_ID}/${ARTIFACT_ID}/${JAR_VERSION}/maven-metadata.xml \
       -o metadata.xml \
