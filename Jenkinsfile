@@ -65,11 +65,11 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'nexus',
                                                 usernameVariable: 'NEXUS_USER',
                                                 passwordVariable: 'NEXUS_PASS')]) {
-                sh """
+                sh '''
                     mvn -B deploy -DskipTests \
-                    -Dnexus.username=${NEXUS_USER} \
-                    -Dnexus.password=${NEXUS_PASS}
-                """
+                    -Dnexus.username=$NEXUS_USER \
+                    -Dnexus.password=$NEXUS_PASS
+                '''
                 }
             }
         }
@@ -87,10 +87,11 @@ pipeline {
 
                           # Build Docker image (fetch JAR from Nexus inside Dockerfile)
                           docker build \
+                            -f Dockerfile.nexusbuild \
                             --build-arg NEXUS_USER=${NEXUS_USER} \
                             --build-arg NEXUS_PASS=${NEXUS_PASS} \
                             --build-arg JAR_VERSION=${VERSION} \
-                            -t ${APP_NAME}:${VERSION} Dockerfile.nexusbuild
+                            -t ${APP_NAME}:${VERSION} .
 
                           # Tag image for your private repo
                           docker tag ${APP_NAME}:${VERSION} ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO}:${VERSION}
@@ -102,6 +103,27 @@ pipeline {
                 }
             }
         }
+        stage('GitOps Sync') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'gitops-cred',
+                                                usernameVariable: 'GIT_USER',
+                                                passwordVariable: 'GIT_PASS')]) {
+                sh '''
+                    git clone https://${GIT_USER}:${GIT_PASS}@github.com/zera18/gitops-repo.git
+                    cd gitops-repo
+
+                    # Update the image tag in deployment.yaml
+                    sed -i "s|image: .*|image: ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO}:${VERSION}|g" deployment.yaml
+
+                    git config user.name "jenkins-bot"
+                    git config user.email "jenkins@example.com"
+                    git commit -am "Update image to ${VERSION}"
+                    git push
+                '''
+                }
+            }
+        }
+
 
 
 
