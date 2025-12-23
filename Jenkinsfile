@@ -109,8 +109,8 @@ pipeline {
                                                 usernameVariable: 'GIT_USER',
                                                 passwordVariable: 'GIT_PASS')]) {
                 sh '''
-                    git clone https://${GIT_USER}:${GIT_PASS}@github.com/zera18/gitops-repo.git
-                    cd gitops-repo
+                    git clone https://${GIT_USER}:${GIT_PASS}@github.com/zerajudeen-zera/portfolio-gitops
+                    cd portfolio-gitops
 
                     # Update the image tag in deployment.yaml
                     sed -i "s|image: .*|image: ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO}:${VERSION}|g" deployment.yaml
@@ -122,12 +122,6 @@ pipeline {
                 '''
                 }
             }
-        }
-
-
-
-
-
-        
+        } 
     }
 }
